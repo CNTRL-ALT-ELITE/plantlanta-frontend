@@ -1,0 +1,43 @@
+.indivContainer {
+  color: #fff;
+  margin-bottom: 4rem;
+  width: 50%;
+
+  & > svg {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.pageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fffbf0;
+  min-width: 80vh;
+  height: 800px;
+  background-repeat: no-repeat;
+  object-fit: contain;
+  background-image: url("https://scontent.fbdq2-1.fna.fbcdn.net/v/t1.0-9/36725173_223265288296675_3410496760815026176_o.jpg?_nc_cat=105&_nc_sid=6e5ad9&_nc_ohc=ftq5YN4eJWQAX9zXxLX&_nc_ht=scontent.fbdq2-1.fna&oh=25eeeefa93a3bb9c4d1b7d36c4dc2b04&oe=5EBCA2C7");
+}
+.introContainer {
+  max-width: 400px;
+  margin: 30px;
+  padding: 80px;
+  background: rgba(27, 33, 38, 0.95);
+  color: white;
+  text-align: center;
+
+  & > svg {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+  }
+}
+.message {
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 30px;
+  margin: 10px auto;
+  max-width: 360px;
+}
