@@ -28,7 +28,7 @@ export default class HomePage extends Component {
               style={{ width: "50%" }}
             /> */}
             <div className={Style.introContainer}>
-              <h1 style={{ fontSize: "2.6rem" }}>We are Plantlanta</h1>
+              <h1 style={{ fontSize: "2.6rem" }}>We are Plantlanta!</h1>
               <SaveNatureIcon />
               <p
                 style={{
