@@ -23,6 +23,7 @@ export default class HomePage extends Component {
         <MainNavBar />
         <div style={{}}>
           <div className={Style.pageContainer}>
+<<<<<<< HEAD
             <img
               src={mainBackground}
               style={{
@@ -63,6 +64,18 @@ export default class HomePage extends Component {
                 </p>
               </div>
               <form
+=======
+            {/* <img
+              src={
+                "https://scontent.fbdq2-1.fna.fbcdn.net/v/t1.0-9/36725173_223265288296675_3410496760815026176_o.jpg?_nc_cat=105&_nc_sid=6e5ad9&_nc_ohc=ftq5YN4eJWQAX9zXxLX&_nc_ht=scontent.fbdq2-1.fna&oh=25eeeefa93a3bb9c4d1b7d36c4dc2b04&oe=5EBCA2C7"
+              }
+              style={{ width: "50%" }}
+            /> */}
+            <div className={Style.introContainer}>
+              <h1 style={{ fontSize: "2.6rem" }}>We are Plantlanta!</h1>
+              <SaveNatureIcon />
+              <p
+>>>>>>> b94786ee2614a45aefd8edf50ddcc2fc67bb1792
                 style={{
                   display: "flex",
                   justifyContent: "center",
