@@ -1,5 +1,5 @@
 import React from "react";
-import { HomePage, VolunteerPage } from "../pages";
+import { AdminPage, HomePage, VolunteerPage } from "../pages";
 
 const ROUTES = (routeName = "", props = {}) => {
   switch (routeName) {
@@ -7,6 +7,8 @@ const ROUTES = (routeName = "", props = {}) => {
       return HomePage;
     case "volunteerPage":
       return VolunteerPage;
+    case "admin":
+      return AdminPage;
     default:
       return () => <div>404 not found</div>;
   }

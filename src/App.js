@@ -4,11 +4,12 @@ import ROUTES from "./constants/routes";
 
 function App() {
   return (
-    <div>
+    <div style={{ overflowX: "hidden" }}>
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={ROUTES("homePage")} />
           <Route path="/volunteer" component={ROUTES("volunteerPage")} />
+          <Route path="/admin" component={ROUTES("admin")} />
         </Switch>
       </BrowserRouter>
     </div>
