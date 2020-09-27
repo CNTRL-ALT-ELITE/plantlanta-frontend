@@ -9,8 +9,12 @@ import { ReactComponent as EmailIcon } from "./mailIcon.svg";
 import { ReactComponent as PhoneIcon } from "./phoneIcon.svg";
 import { ReactComponent as LocationIcon } from "./locationIcon.svg";
 import { ReactComponent as CloseIcon } from "./CloseIcon.svg";
+import { ReactComponent as PencilIcon } from "./PencilIcon.svg";
+import { ReactComponent as AddPhotoIcon } from "./AddPhoto.svg";
+import { ReactComponent as ArrowIcon } from "./ArrowIcon.svg";
 
 export {
+  ArrowIcon,
   MenuIcon,
   EventIcon,
   EmailIcon,
@@ -21,5 +25,7 @@ export {
   VolunteerIcon,
   SaveNatureIcon,
   ShopIcon,
-  SocialIcon
+  SocialIcon,
+  PencilIcon,
+  AddPhotoIcon
 };

@@ -6,6 +6,14 @@ import { Link } from "react-router-dom";
 
 import MainNavBar from "../../components/MainNavBar";
 import MainFooter from "../../components/MainFooter";
+import REGEX from "constants/RegEx";
+
+import { Button, TextInput } from "fields";
+
+import UserSignupDuck from "store/ducks/UserSignup.duck";
+import { connect } from "react-redux";
+
+import { ShowConfirmNotif } from "functions";
 
 const mainBackground = require("../../assets/Images/PlantlantaBackground.png");
 const plantlanta01 = require("../../assets/Images/plantlanta01.png");
@@ -16,14 +24,79 @@ const plantlanta05 = require("../../assets/Images/plantlanta05.png");
 const plantlanta06 = require("../../assets/Images/plantlanta06.png");
 const plantlanta07 = require("../../assets/Images/plantlanta07.png");
 
-export default class HomePage extends Component {
+class HomePage extends Component {
+  confirmNotif = null;
+
+  state = { name: "", email: "", isSigningUp: false };
+
+  onSubscribe = async e => {
+    e.preventDefault();
+    const { name, email } = this.state;
+    console.log(name);
+    console.log(email);
+    this.setState(
+      {
+        isSigningUp: true
+      },
+      this.onDetermineButtonStatus
+    );
+
+    const { userSignup } = UserSignupDuck.actionCreators;
+    const { success } = await this.props.dispatch(userSignup(name, email));
+
+    if (success) {
+      // Show Notif
+      this.confirmNotif = ShowConfirmNotif({
+        message: "Thank you for subscribing",
+        type: "success"
+      });
+    } else {
+      this.confirmNotif = ShowConfirmNotif({
+        message: "Something went wrong, try again",
+        type: "error"
+      });
+    }
+
+    this.setState(
+      {
+        isSigningUp: false,
+        name: "",
+        email: ""
+      },
+      this.onDetermineButtonStatus
+    );
+  };
+
+  isEmailValid = email => {
+    if (!email || !REGEX.EMAIL.test(email)) return false;
+
+    return true;
+  };
+
+  onChangeTextInputValue = (id, value) => {
+    this.setState(
+      {
+        [id]: value
+      },
+      this.onDetermineButtonStatus
+    );
+  };
+
+  onDetermineButtonStatus = () => {
+    const { name, email, isSigningUp } = this.state;
+    const buttonStatus =
+      this.isEmailValid(email) && name.length > 0 && !isSigningUp
+        ? "active"
+        : "inactive";
+    return buttonStatus;
+  };
+
   render() {
     return (
       <div>
         <MainNavBar />
         <div style={{}}>
           <div className={Style.pageContainer}>
-<<<<<<< HEAD
             <img
               src={mainBackground}
               style={{
@@ -64,24 +137,13 @@ export default class HomePage extends Component {
                 </p>
               </div>
               <form
-=======
-            {/* <img
-              src={
-                "https://scontent.fbdq2-1.fna.fbcdn.net/v/t1.0-9/36725173_223265288296675_3410496760815026176_o.jpg?_nc_cat=105&_nc_sid=6e5ad9&_nc_ohc=ftq5YN4eJWQAX9zXxLX&_nc_ht=scontent.fbdq2-1.fna&oh=25eeeefa93a3bb9c4d1b7d36c4dc2b04&oe=5EBCA2C7"
-              }
-              style={{ width: "50%" }}
-            /> */}
-            <div className={Style.introContainer}>
-              <h1 style={{ fontSize: "2.6rem" }}>We are Plantlanta!</h1>
-              <SaveNatureIcon />
-              <p
->>>>>>> b94786ee2614a45aefd8edf50ddcc2fc67bb1792
                 style={{
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   marginLeft: "20px"
                 }}
+                onSubmit={this.onSubscribe}
               >
                 <div
                   style={{
@@ -91,9 +153,10 @@ export default class HomePage extends Component {
                   }}
                 >
                   <p style={{ color: "#21C432", fontSize: "12px" }}>Name</p>
-                  <input
+                  <TextInput
                     type="text"
                     className={Style.signUpInput}
+                    name="name"
                     style={{
                       background: "#EEEEEE",
                       fontSize: "12px",
@@ -102,6 +165,10 @@ export default class HomePage extends Component {
                       border: "1px solid #111",
                       padding: "10px"
                     }}
+                    value={this.state.name || ""}
+                    onChange={value =>
+                      this.onChangeTextInputValue("name", value)
+                    }
                   />
                 </div>
                 <div
@@ -112,9 +179,14 @@ export default class HomePage extends Component {
                   }}
                 >
                   <p style={{ color: "#21C432", fontSize: "12px" }}>Email</p>
-                  <input
-                    type="text"
+                  <TextInput
+                    type="email"
                     className={Style.signUpInput}
+                    name="email"
+                    onChange={value =>
+                      this.onChangeTextInputValue("email", value)
+                    }
+                    value={this.state.email || ""}
                     style={{
                       background: "#EEEEEE",
                       fontSize: "12px",
@@ -125,19 +197,13 @@ export default class HomePage extends Component {
                     }}
                   />
                 </div>
-                <button
-                  style={{
-                    backgroundColor: "#21C432",
-                    padding: "10px 20px",
-                    maxWidth: "200px",
-                    height: "40px",
-                    color: "white",
-                    borderRadius: "0px",
-                    marginTop: "15px"
-                  }}
+                <Button
+                  className={Style.subscribeButton}
+                  name="subscribe"
+                  status={this.onDetermineButtonStatus()}
                 >
                   Subscribe
-                </button>
+                </Button>
               </form>
             </div>
           </div>
@@ -511,3 +577,11 @@ export default class HomePage extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    isSigningUp: state[UserSignupDuck.duckName].isSigningUp
+  };
+};
+
+export default connect(mapStateToProps)(HomePage);

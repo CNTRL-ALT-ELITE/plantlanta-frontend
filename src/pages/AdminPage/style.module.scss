@@ -6,6 +6,16 @@
   color: #000;
 }
 
+.passwordButton {
+  background-color: #21c432;
+  padding: 10px 20px;
+  width: 200px;
+  height: 40px;
+  color: white;
+  border-radius: 0px;
+  margin-top: 25px;
+}
+
 @media only screen and (max-width: 600px) {
   .largeCenterModalBox {
     height: 100%;
