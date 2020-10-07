@@ -95,7 +95,7 @@ class HomePage extends Component {
     return (
       <div>
         <MainNavBar />
-        <div style={{}}>
+        <div>
           <div className={Style.pageContainer}>
             <img
               src={mainBackground}

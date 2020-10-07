@@ -8,6 +8,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import UserSignupDuck from "./ducks/UserSignup.duck";
 import AdminDuck from "./ducks/Admin.duck";
 import AdminUIDuck from "./ducks/AdminUI.duck";
+import CheckoutDuck from "./ducks/Checkout.duck";
 
 // Initial State of the app
 const initialState = {};
@@ -27,7 +28,12 @@ const combineDucks = (...ducks) => {
   return combineReducers(reducersWithRouter);
 };
 
-const rootReducer = combineDucks(UserSignupDuck, AdminDuck, AdminUIDuck);
+const rootReducer = combineDucks(
+  UserSignupDuck,
+  AdminDuck,
+  AdminUIDuck,
+  CheckoutDuck
+);
 
 // Main Redux Store
 const store = createStore(

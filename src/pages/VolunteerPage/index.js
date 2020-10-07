@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import ReactModal from "react-modal";
+
 import MainNavBar from "../../components/MainNavBar";
 import MainFooter from "../../components/MainFooter";
 
@@ -9,6 +11,14 @@ import AdminDuck from "store/ducks/Admin.duck";
 
 import { connect } from "react-redux";
 import moment from "moment";
+import { CloseIcon } from "assets/Icons";
+
+import { Button, TextInput } from "fields";
+import REGEX from "constants/RegEx";
+
+import EventDuck from "store/ducks/Event.duck";
+
+import { ShowConfirmNotif } from "functions";
 
 const eventBackground = require("../../assets/Images/EventsBackgroundImage.png");
 const plantlantaEvents01 = require("../../assets/Images/plantlantaEvents01.png");
@@ -16,10 +26,81 @@ const plantlantaEvents02 = require("../../assets/Images/plantlantaEvents02.png")
 const plantlantaEvents03 = require("../../assets/Images/plantlantaEvents03.png");
 
 class VolunteerPage extends Component {
+  confirmNotif = null;
+
+  state = {
+    name: "",
+    email: "",
+    event: "",
+    isSigningUp: false,
+    showSignUpModal: false
+  };
   componentDidMount() {
     // Fetch everything over here
     Promise.all([this.fetchAllEvents()]);
   }
+
+  isEmailValid = email => {
+    if (!email || !REGEX.EMAIL.test(email)) return false;
+
+    return true;
+  };
+
+  onSignup = async e => {
+    e.preventDefault();
+    const { name, email, event } = this.state;
+    console.log(event);
+    console.log(name);
+    console.log(email);
+    this.setState(
+      {
+        isSigningUp: true
+      },
+      this.onDetermineButtonStatus
+    );
+
+    const { eventSignup } = EventDuck.actionCreators;
+    const { success } = await this.props.dispatch(
+      eventSignup(event.id, name, email)
+    );
+
+    if (success) {
+      // Show Notif
+      this.confirmNotif = ShowConfirmNotif({
+        message: "Thank you for Signing up",
+        type: "success"
+      });
+
+      this.setState({
+        name: "",
+        email: "",
+        event: "",
+        isSigningUp: false,
+        showSignUpModal: false
+      });
+    } else {
+      this.confirmNotif = ShowConfirmNotif({
+        message: "Something went wrong, try again",
+        type: "error"
+      });
+    }
+  };
+
+  onChangeTextInputValue = (id, value) => {
+    this.setState(
+      {
+        [id]: value
+      },
+      this.onDetermineButtonStatus
+    );
+  };
+
+  onDetermineButtonStatus = () => {
+    const { name, email } = this.state;
+    const buttonStatus =
+      this.isEmailValid(email) && name.length > 0 ? "active" : "inactive";
+    return buttonStatus;
+  };
 
   fetchAllEvents = async () => {
     const { actionCreators } = AdminDuck;
@@ -38,19 +119,32 @@ class VolunteerPage extends Component {
     }
   };
 
+  renderAllEvents = () => {
+    console.log(this.props.events);
+    if (this.props.events.length === 0) {
+      return;
+    }
+    const filteredEvents = this.props.events.filter(
+      event => new Date(event.eventDate) < new Date()
+    );
+
+    const sortedEvents = filteredEvents.sort(
+      (a, b) => new Date(a.eventDate) - new Date(b.eventDate)
+    );
+
+    return sortedEvents.length !== 0 ? (
+      <div className={Style.gridWrapper}>
+        {sortedEvents.map(this.renderEvent)}
+      </div>
+    ) : (
+      <div className={Style.noEventsContainer}>No upcoming events</div>
+    );
+  };
+
   renderEvent = event => {
     const { name, description, eventDate, original_image_url } = event;
     return (
-      <div
-        style={{
-          marginRight: "100px",
-          color: "white",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
+      <div className={Style.gridCell}>
         <h4 style={{ color: "black" }}>{name}</h4>
         <p style={{ marginBottom: "15px", color: "black" }}>
           {moment(eventDate).format("LL")}{" "}
@@ -63,6 +157,7 @@ class VolunteerPage extends Component {
           {description}
         </p>
         <button
+          onClick={() => this.showSignUpModal(event)}
           style={{
             background: "#3AAFA9",
             width: "100px",
@@ -73,6 +168,116 @@ class VolunteerPage extends Component {
           Sign Up
         </button>
       </div>
+    );
+  };
+
+  showSignUpModal = event => {
+    this.setState({
+      event,
+      showSignUpModal: true
+    });
+  };
+
+  hideSignUpModal = () => {
+    this.setState({
+      name: "",
+      email: "",
+      event: "",
+      showSignUpModal: false
+    });
+  };
+
+  renderSignUpModal = () => {
+    return this.state.showSignUpModal ? (
+      <ReactModal
+        isOpen={true}
+        // onAfterOpen={}
+        // onRequestClose={}
+        // style={}
+        className={Style.Modal}
+        overlayClassName={Style.Overlay}
+        contentLabel="Example Modal"
+      >
+        <button className={Style.close} onClick={() => this.hideSignUpModal()}>
+          <CloseIcon />
+        </button>
+        <div className={Style.header}>
+          <h2>Sign Up for {this.state.event.name}</h2>
+        </div>
+        <div className={Style.body}>
+          <div className={Style.authContainer}>{this.signUpForm()}</div>
+        </div>
+      </ReactModal>
+    ) : null;
+  };
+
+  signUpForm = () => {
+    return (
+      <form
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginLeft: "20px"
+        }}
+        onSubmit={this.onSignup}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginRight: "20px"
+          }}
+        >
+          <p style={{ color: "#21C432", fontSize: "12px" }}>Name</p>
+          <TextInput
+            type="text"
+            className={Style.signUpInput}
+            name="name"
+            style={{
+              background: "#EEEEEE",
+              fontSize: "12px",
+              height: "40px",
+              width: "150px",
+              border: "1px solid #111",
+              padding: "10px"
+            }}
+            value={this.state.name || ""}
+            onChange={value => this.onChangeTextInputValue("name", value)}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginRight: "20px"
+          }}
+        >
+          <p style={{ color: "#21C432", fontSize: "12px" }}>Email</p>
+          <TextInput
+            type="email"
+            className={Style.signUpInput}
+            name="email"
+            onChange={value => this.onChangeTextInputValue("email", value)}
+            value={this.state.email || ""}
+            style={{
+              background: "#EEEEEE",
+              fontSize: "12px",
+              height: "40px",
+              width: "150px",
+              border: "1px solid #111",
+              padding: "10px"
+            }}
+          />
+        </div>
+        <Button
+          className={Style.subscribeButton}
+          name="signUp"
+          status={this.onDetermineButtonStatus()}
+        >
+          Sign Up
+        </Button>
+      </form>
     );
   };
 
@@ -212,11 +417,11 @@ class VolunteerPage extends Component {
                 Sign up or buy tickets for upcoming events!
               </h1>
             </div>
-            <div style={{ display: "flex", margin: "20px", padding: "1em" }}>
-              {this.props.events.map(this.renderEvent)}
-            </div>
+
+            {this.renderAllEvents()}
           </div>
         </div>
+        {this.renderSignUpModal()}
 
         {/* <div style={{ height: "100vh", background: "rgb(27, 33, 38)" }}>
           <h1 style={{ color: "white", padding: "2em 1em", margin: "0" }}>

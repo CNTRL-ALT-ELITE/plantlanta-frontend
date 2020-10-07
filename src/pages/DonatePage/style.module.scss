@@ -1,0 +1,53 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  position: relative;
+  min-width: 80vh;
+  margin-bottom: 50px;
+  // height: 800px;
+  // background-repeat: no-repeat;
+  // object-fit: contain;
+  // background-image: url("https://scontent-atl3-1.xx.fbcdn.net/v/t1.0-9/36725173_223265288296675_3410496760815026176_o.jpg?_nc_cat=105&_nc_sid=cdbe9c&_nc_ohc=D0badQIE1c8AX_uaFG8&_nc_ht=scontent-atl3-1.xx&oh=7eb528c8c9ed2bd6be91e83a8b865e84&oe=5F7A7AC7");
+}
+
+.donateButton {
+  background-color: #21c432;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 0px;
+  font-size: 30px;
+}
+
+.signUpContainer {
+  display: flex;
+  padding: 30px 60px;
+  position: absolute;
+  bottom: -40px;
+  background: white;
+  box-shadow: 6px 7px 12px -6px rgba(0, 0, 0, 0.75);
+}
+
+.signUpInput {
+  & > input,
+  textarea {
+    line-height: 25px;
+    padding: 0;
+    min-width: 100%;
+    max-width: 100%;
+    background: #eeeeee;
+  }
+  background: #eeeeee;
+  margin-right: 50px;
+}
+
+.donateOptionButton {
+  background-color: #21c432;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 0px;
+  font-size: 15px;
+  margin-right: 20px;
+}
