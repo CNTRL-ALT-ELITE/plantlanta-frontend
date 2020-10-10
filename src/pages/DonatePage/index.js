@@ -34,7 +34,9 @@ const donateOptions = {
 export default class DonatePage extends Component {
   state = {
     donateAmount: "",
-    checkout: false
+    checkout: false,
+    error: "",
+    donationComplete: false
   };
 
   onChangeTextInputValue = (id, value) => {
@@ -76,6 +78,20 @@ export default class DonatePage extends Component {
     e.preventDefault();
     this.setState({
       checkout: true
+    });
+  };
+
+  hideSignUpModal = (error = "") => {
+    this.setState({
+      checkout: false,
+      error
+    });
+  };
+
+  onDonationsSuccessful = () => {
+    this.setState({
+      checkout: false,
+      donationComplete: true
     });
   };
 
@@ -148,7 +164,21 @@ export default class DonatePage extends Component {
             </div>
           </div>
         </div>
-        <div>{this.state.checkout && <CheckoutModal />}</div>
+        <div
+          style={{ display: "flex", justifyContent: "center", margin: "20px" }}
+        >
+          <h2>{this.state.donationComplete && "Thank you for Donating!"}</h2>
+        </div>
+        <div>
+          {this.state.checkout && (
+            <CheckoutModal
+              donateAmount={this.state.donateAmount}
+              hideSignUpModal={this.hideSignUpModal}
+              onDonationsSuccessful={this.onDonationsSuccessful}
+            />
+          )}
+        </div>
+
         <MainFooter />
       </div>
     );

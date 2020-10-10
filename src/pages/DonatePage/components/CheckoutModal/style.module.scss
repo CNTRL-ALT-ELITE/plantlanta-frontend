@@ -65,3 +65,63 @@
   align-items: center;
   justify-content: center;
 }
+
+.title {
+  font-size: 20px;
+}
+
+.form {
+  padding: 40px;
+}
+
+.formInputLabel {
+  color: #919496;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.formInput {
+  // font-family: Baskerville;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: inherit;
+  text-transform: none;
+  color: inherit;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 25px;
+  color: black;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  border-bottom: 2px solid #21c432;
+  outline: 0;
+  margin: 0;
+  padding: 0px 20px;
+  resize: vertical;
+  background: transparent !important;
+  background-image: none;
+  box-shadow: none;
+  -webkit-border-radius: 0px;
+
+  ::placeholder {
+    color: #919496;
+    font-family: Baskerville;
+    padding: 0px;
+  }
+}
+
+.submitButton {
+  padding: 10px;
+  width: 45%;
+  margin-right: 5%;
+  background: #21c432;
+  color: white;
+  border-radius: 10px;
+  text-transform: uppercase;
+  font-size: 16px;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}

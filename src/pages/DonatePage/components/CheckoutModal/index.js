@@ -7,24 +7,29 @@ import * as immutable from "object-path-immutable";
 import { Button } from "fields";
 
 import { CloseIcon } from "assets/Icons";
+
+import CheckoutDuck from "store/ducks/Checkout.duck";
+
 import ReactModal from "react-modal";
 
 import { CardElement, ElementsConsumer } from "@stripe/react-stripe-js";
 
 import { ClipLoader } from "react-spinners";
 
+import { connect } from "react-redux";
+
 const cardStyle = {
   style: {
     base: {
-      color: "white",
-      fontFamily: "Baskerville",
+      color: "black",
+      // fontFamily: "Baskerville",
       fontSmoothing: "antialiased",
       fontSize: "16px",
       "::placeholder": {
         color: "#919496"
-      },
-      borderBottom: "2px solid #fff"
+      }
     },
+    borderBottom: "2px solid black",
     invalid: {
       color: "#fa755a",
       iconColor: "#fa755a"
@@ -35,10 +40,11 @@ const cardStyle = {
 class PaymentInputForm extends Component {
   state = {
     name: "",
+    email: "",
     clientSecret: "",
     errorMessage: "",
     isLoading: false,
-    creatingNewPayment: false
+    confirmingPayment: false
   };
 
   onDetermineBtnStatus = () => {
@@ -56,11 +62,15 @@ class PaymentInputForm extends Component {
   };
 
   onSubmitPaymentInfo = async event => {
-    // Block native form submission.
     event.preventDefault();
 
+    const {
+      createDonationPaymentIntent,
+      onDonationSuccess
+    } = CheckoutDuck.actionCreators;
+
     this.setState({
-      creatingNewPayment: true
+      confirmingPayment: true
     });
 
     const { stripe, elements } = this.props;
@@ -71,46 +81,55 @@ class PaymentInputForm extends Component {
       return;
     }
 
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
-    // each type of element.
+    const paymentIntentClientSecret = await this.props.dispatch(
+      createDonationPaymentIntent(this.props.donateAmount)
+    );
 
-    const result = await stripe.confirmCardSetup(`${this.state.clientSecret}`, {
+    if (paymentIntentClientSecret === "") {
+      this.props.hideSignUpModal();
+      return;
+    }
+
+    const result = await stripe.confirmCardPayment(paymentIntentClientSecret, {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
-          name: this.state.name
+          name: this.state.name,
+          email: this.state.email
         }
       }
     });
 
-    if (result.error) {
-      console.log("[error]", result.error);
-      this.setState({
-        errorMessage: result.error.message,
-        creatingNewPayment: false
-      });
-    } else {
-      console.log("[PaymentMethod]", result.setupIntent.payment_method);
-      const payment_method_id = result.setupIntent.payment_method;
+    console.log(result);
+    const { paymentIntent } = result;
 
-      const { updated, message } = await this.props.addNewPaymentMethod(
-        payment_method_id
+    if (paymentIntent.status === "succeeded") {
+      console.log("Calling Payment Success");
+
+      this.props.dispatch(
+        onDonationSuccess(
+          this.state.name,
+          this.state.email,
+          this.props.donateAmount,
+          paymentIntent.id
+        )
       );
 
-      console.log(updated);
-
       this.setState({
-        creatingNewPayment: false
+        confirmingPayment: false
       });
+
+      this.props.onDonationsSuccessful();
     }
+
+    return;
   };
 
   render() {
     const { stripe } = this.props;
     console.log(stripe);
 
-    const { name, errorMessage } = this.state;
+    const { name, email, errorMessage } = this.state;
 
     // if (errorMessage) {
     //   return <div>Something Went Wrong</div>
@@ -126,11 +145,14 @@ class PaymentInputForm extends Component {
         overlayClassName={Style.Overlay}
         contentLabel="Example Modal"
       >
-        <button className={Style.close} onClick={() => this.hideSignUpModal()}>
+        <button
+          className={Style.close}
+          onClick={() => this.props.hideSignUpModal()}
+        >
           <CloseIcon />
         </button>
         <div className={Style.formContainer}>
-          <h1 className={Style.title}> PAYMENT INFO</h1>
+          <h1 className={Style.title}> Payment Info</h1>
           <form
             className={Style.form}
             onSubmit={e => this.onSubmitPaymentInfo(e)}
@@ -149,8 +171,23 @@ class PaymentInputForm extends Component {
             />
             <br />
             <br />
+            <input
+              className={Style.formInput}
+              placeholder={"Cardholder Email"}
+              type="email"
+              name="email"
+              value={email}
+              onChange={e =>
+                this.onChangeFieldValue(e.target.name, e.target.value)
+              }
+            />
+            <br />
+            <br />
             <div
-              style={{ borderBottom: "2px solid white", paddingBottom: "10px" }}
+              style={{
+                borderBottom: "2px solid #21c432",
+                paddingBottom: "10px"
+              }}
             >
               <CardElement id="card-element" options={cardStyle} />
             </div>
@@ -158,22 +195,14 @@ class PaymentInputForm extends Component {
             <div className={Style.errorMessage}>{this.state.errorMessage}</div>
             <br />
 
-            {!this.state.creatingNewPayment ? (
+            {!this.state.confirmingPayment ? (
               <div className={Style.buttonsContainer}>
-                {this.props.addNewPayment && (
-                  <Button
-                    className={Style.submitButton}
-                    onClick={() => this.props.goBack()}
-                  >
-                    Back
-                  </Button>
-                )}
                 <Button
                   className={Style.submitButton}
                   name="submit"
                   status={this.onDetermineBtnStatus()}
                 >
-                  Continue
+                  Pay ${this.props.donateAmount}
                 </Button>
               </div>
             ) : (
@@ -187,7 +216,7 @@ class PaymentInputForm extends Component {
                 }}
               >
                 <ClipLoader width={"30px"} color={"#fff"} />
-                <div>Adding payment...</div>
+                <div>Confirming payment...</div>
               </div>
             )}
           </form>
@@ -207,4 +236,4 @@ const NewPaymentInput = props => {
   );
 };
 
-export default NewPaymentInput;
+export default connect()(NewPaymentInput);
