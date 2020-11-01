@@ -25,6 +25,7 @@ function App() {
               <Route path="/volunteer" component={ROUTES("volunteerPage")} />
               <Route path="/admin" component={ROUTES("admin")} />
               <Route path="/donateNow" component={ROUTES("donateNow")} />
+              <Route path="/shop" component={ROUTES("shopPage")} />
             </Switch>
             <ToastContainer transition={Flip} />
           </BrowserRouter>

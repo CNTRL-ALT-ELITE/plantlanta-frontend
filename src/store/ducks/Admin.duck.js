@@ -16,6 +16,10 @@ const actionTypes = createActionTypes(
     GET_EVENTS_SUCCESS: "GET_EVENTS_SUCCESS",
     GET_EVENTS_ERROR: "GET_EVENTS_ERROR",
 
+    GET_SHOP_ITEMS_REQUEST: "GET_SHOP_ITEMS_REQUEST",
+    GET_SHOP_ITEMS_SUCCESS: "GET_SHOP_ITEMS_SUCCESS",
+    GET_SHOP_ITEMS_ERROR: "GET_SHOP_ITEMS_ERROR",
+
     CREATE_NEW_EVENT_REQUEST: "CREATE_NEW_EVENT_REQUEST",
     CREATE_NEW_EVENT_SUCCESS: "CREATE_NEW_EVENT_SUCCESS",
     CREATE_NEW_EVENT_ERROR: "CREATE_NEW_EVENT_ERROR",
@@ -32,7 +36,21 @@ const actionTypes = createActionTypes(
       "UPDATE_EVENT_ADDITIONAL_IMAGES_REQUEST",
     UPDATE_EVENT_ADDITIONAL_IMAGES_SUCCESS:
       "UPDATE_EVENT_ADDITIONAL_IMAGES_SUCCESS",
-    UPDATE_EVENT_ADDITIONAL_IMAGES_ERROR: "UPDATE_EVENT_ADDITIONAL_IMAGES_ERROR"
+    UPDATE_EVENT_ADDITIONAL_IMAGES_ERROR:
+      "UPDATE_EVENT_ADDITIONAL_IMAGES_ERROR",
+
+    CREATE_NEW_SHOP_ITEM_REQUEST: "CREATE_NEW_SHOP_ITEM_REQUEST",
+    CREATE_NEW_SHOP_ITEM_SUCCESS: "CREATE_NEW_SHOP_ITEM_SUCCESS",
+    CREATE_NEW_SHOP_ITEM_ERROR: "CREATE_NEW_SHOP_ITEM_ERROR",
+    UPDATE_EXISTING_SHOP_ITEM_REQUEST: "UPDATE_EXISTING_SHOP_ITEM_REQUEST",
+    UPDATE_EXISTING_SHOP_ITEM_SUCCESS: "UPDATE_EXISTING_SHOP_ITEM_SUCCESS",
+    UPDATE_EXISTING_SHOP_ITEM_ERROR: "UPDATE_EXISTING_SHOP_ITEM_ERROR",
+    REMOVE_EXISTING_SHOP_ITEM_REQUEST: "REMOVE_EXISTING_SHOP_ITEM_REQUEST",
+    REMOVE_EXISTING_SHOP_ITEM_SUCCESS: "REMOVE_EXISTING_SHOP_ITEM_SUCCESS",
+    REMOVE_EXISTING_SHOP_ITEM_ERROR: "REMOVE_EXISTING_SHOP_ITEM_ERROR",
+    UPDATE_SHOP_ITEM_IMAGE_REQUEST: "UPDATE_SHOP_ITEM_IMAGE_REQUEST",
+    UPDATE_SHOP_ITEM_IMAGE_SUCCESS: "UPDATE_SHOP_ITEM_IMAGE_SUCCESS",
+    UPDATE_SHOP_ITEM_IMAGE_ERROR: "UPDATE_SHOP_ITEM_IMAGE_ERROR"
   },
   duckName
 );
@@ -40,6 +58,12 @@ const actionTypes = createActionTypes(
 const initialState = {
   isSigningIn: false,
   events: {
+    data: [],
+    errorMessage: {},
+    isFetching: false,
+    isMutating: false
+  },
+  shopItems: {
     data: [],
     errorMessage: {},
     isFetching: false,
@@ -254,6 +278,195 @@ const updateEventAdditionalImages = (imageURLs, eventInfo) => dispatch => {
       .catch(err => {
         dispatch(updateEventAdditionalImagesFailure(err.response));
         resolve({ updated: false, message: "Failed to update Event Image" });
+      });
+  });
+};
+
+// Shop
+
+const createShopItemWithInputType = () => {
+  return `
+      mutation($shopItem: ShopItemInput!, ) {
+              createNewShopItem(shopItem: $shopItem) {
+                  name
+                  id
+              }
+          }
+      `;
+};
+
+const createNewShopItem = shopItem => dispatch => {
+  dispatch(createNewShopItemRequest());
+  // console.log(event);
+
+  const { id, name, description, price, quantity } = shopItem;
+
+  const shopItemInfo = immutable
+    .wrap({})
+    .set("name", name)
+    .set("description", description)
+    .set("price", parseInt(price))
+    .set("quantity", parseInt(quantity))
+    .value();
+
+  console.log(shopItemInfo);
+
+  return new Promise((resolve, reject) => {
+    fetchGraphQL(createShopItemWithInputType(), undefined, {
+      shopItem: shopItemInfo
+    })
+      .then(res => {
+        if (
+          res !== null &&
+          res !== undefined &&
+          res.createNewShopItem !== null &&
+          res.createNewShopItem !== undefined
+        ) {
+          dispatch(createNewShopItemSuccess());
+          resolve({ created: true, message: "Created ShopItem Successfully" });
+        } else {
+          dispatch(createNewShopItemError());
+          resolve({ created: false, message: "Failed to Create ShopItem" });
+        }
+      })
+      .catch(err => {
+        dispatch(createNewShopItemError(err.response));
+        resolve({ created: false, message: "Failed to Create ShopItem" });
+      });
+  });
+};
+
+const updateShopItemWithInputType = () => {
+  return `
+      mutation($shopItem: ShopItemInput!, $id: ID!) {
+              updateExistingShopItem(shopItem: $shopItem, id: $id) 
+          }
+      `;
+};
+
+const updateExistingShopItem = shopItem => dispatch => {
+  dispatch(updateExistingShopItemRequest());
+  const { id, name, description, price, quantity } = shopItem;
+
+  const shopItemInfo = immutable
+    .wrap({})
+    .set("name", name)
+    .set("description", description)
+    .set("price", parseInt(price))
+    .set("quantity", parseInt(quantity))
+    .value();
+
+  return new Promise((resolve, reject) => {
+    fetchGraphQL(updateShopItemWithInputType(), undefined, {
+      shopItem: shopItemInfo,
+      id
+    })
+      .then(res => {
+        if (
+          (res !== null) & (res !== undefined) &&
+          res.updateExistingShopItem
+        ) {
+          dispatch(updateExistingShopItemSuccess());
+          resolve({ updated: true, message: "Updated ShopItem Successfully" });
+        } else {
+          dispatch(updateExistingShopItemError("Could Not Update ShopItem"));
+          resolve({ updated: false, message: "Failed to update ShopItem" });
+        }
+      })
+      .catch(err => {
+        dispatch(updateExistingShopItemError(err.response));
+        resolve({ updated: false, message: "Failed to update ShopItem" });
+      });
+  });
+};
+
+const removeExistingShopItem = shopItem => dispatch => {
+  dispatch(removeExistingShopItemRequest());
+  return new Promise((resolve, reject) => {
+    fetchGraphQL(`
+          mutation {
+              removeExistingShopItem(id: "${shopItem.id}")
+          }
+      `)
+      .then(res => {
+        if (res !== null && res !== undefined && res.removeExistingEvent) {
+          dispatch(removeExistingShopItemSuccess());
+          resolve({ deleted: true, message: "Deleted ShopItem Successfully" });
+        } else {
+          dispatch(removeExistingShopItemError("Could Not Remove ShopItem"));
+          resolve({ deleted: false, message: "Failed to delete ShopItem" });
+        }
+      })
+      .catch(err => {
+        dispatch(removeExistingShopItemError(err.response));
+        resolve({ deleted: false, message: "Failed to delete ShopItem" });
+      });
+  });
+};
+
+const updateShopItemImage = (imageURL, shopItem) => dispatch => {
+  dispatch(updateShopItemImageRequest());
+  return new Promise((resolve, reject) => {
+    fetchGraphQL(`
+          mutation {
+              updateShopItemImage(id: "${shopItem.id}", imageURL: "${imageURL}")
+          }    
+      `)
+      .then(res => {
+        if (res !== null && res !== undefined && res.updateShopItemImage) {
+          dispatch(updateShopItemImageSuccess());
+          resolve({
+            updated: true,
+            message: "Updated ShopItem Image Successfully"
+          });
+        } else {
+          dispatch(
+            updateShopItemImageFailure("Could Not Update ShopItem Image")
+          );
+          resolve({
+            updated: false,
+            message: "Failed to update ShopItem Image"
+          });
+        }
+      })
+      .catch(err => {
+        dispatch(updateShopItemImageFailure(err.response));
+        resolve({ updated: false, message: "Failed to update ShopItem Image" });
+      });
+  });
+};
+
+const getAllShopItems = () => dispatch => {
+  dispatch(getAllShopItemsRequest());
+  return new Promise((resolve, reject) => {
+    fetchGraphQL(`
+      query {
+          getShopItems {
+              id
+              name
+              description
+              price 
+              quantity
+              original_image_url
+          }
+      }`)
+      .then(res => {
+        if (
+          res !== null &&
+          res !== undefined &&
+          res.getShopItems !== null &&
+          res.getShopItems !== undefined
+        ) {
+          dispatch(getAllShopItemsSuccess(res.getShopItems));
+          resolve({ success: true, message: "Fetched ShopItems successfully" });
+        } else {
+          dispatch(getAllShopItemsError("Could not fetch ShopItems"));
+          resolve({ success: false, message: "Failed to fetch ShopItems" });
+        }
+      })
+      .catch(err => {
+        dispatch(getAllShopItemsError(err.response));
+        resolve({ success: false, message: "Failed to fetch ShopItems" });
       });
   });
 };
@@ -497,6 +710,84 @@ const updateEventAdditionalImagesFailure = errorMessage => {
   };
 };
 
+// Shop
+
+const createNewShopItemRequest = () => {
+  return {
+    type: actionTypes.CREATE_NEW_SHOP_ITEM_REQUEST
+  };
+};
+
+const createNewShopItemSuccess = () => {
+  return {
+    type: actionTypes.CREATE_NEW_SHOP_ITEM_SUCCESS
+  };
+};
+
+const createNewShopItemError = errorMessage => {
+  return {
+    type: actionTypes.CREATE_NEW_SHOP_ITEM_ERROR,
+    payload: { errorMessage }
+  };
+};
+
+const updateExistingShopItemRequest = () => {
+  return {
+    type: actionTypes.UPDATE_EXISTING_SHOP_ITEM_REQUEST
+  };
+};
+
+const updateExistingShopItemSuccess = () => {
+  return {
+    type: actionTypes.UPDATE_EXISTING_SHOP_ITEM_SUCCESS
+  };
+};
+
+const updateExistingShopItemError = errorMessage => {
+  return {
+    type: actionTypes.UPDATE_EXISTING_SHOP_ITEM_ERROR,
+    payload: { errorMessage }
+  };
+};
+
+const removeExistingShopItemRequest = () => {
+  return {
+    type: actionTypes.REMOVE_EXISTING_SHOP_ITEM_REQUEST
+  };
+};
+
+const removeExistingShopItemSuccess = () => {
+  return {
+    type: actionTypes.REMOVE_EXISTING_SHOP_ITEM_SUCCESS
+  };
+};
+
+const removeExistingShopItemError = errorMessage => {
+  return {
+    type: actionTypes.REMOVE_EXISTING_SHOP_ITEM_ERROR,
+    payload: { errorMessage }
+  };
+};
+
+const updateShopItemImageRequest = () => {
+  return {
+    type: actionTypes.UPDATE_SHOP_ITEM_IMAGE_REQUEST
+  };
+};
+
+const updateShopItemImageSuccess = () => {
+  return {
+    type: actionTypes.UPDATE_SHOP_ITEM_IMAGE_SUCCESS
+  };
+};
+
+const updateShopItemImageFailure = errorMessage => {
+  return {
+    type: actionTypes.UPDATE_SHOP_ITEM_IMAGE_ERROR,
+    payload: { errorMessage }
+  };
+};
+
 const getAllEventsRequest = () => {
   return {
     type: actionTypes.GET_EVENTS_REQUEST
@@ -514,6 +805,27 @@ const getAllEventsError = errorMessage => {
   console.log(errorMessage);
   return {
     type: actionTypes.GET_EVENTS_ERROR,
+    payload: { errorMessage }
+  };
+};
+
+const getAllShopItemsRequest = () => {
+  return {
+    type: actionTypes.GET_SHOP_ITEMS_REQUEST
+  };
+};
+
+const getAllShopItemsSuccess = data => {
+  return {
+    type: actionTypes.GET_SHOP_ITEMS_SUCCESS,
+    payload: { data }
+  };
+};
+
+const getAllShopItemsError = errorMessage => {
+  console.log(errorMessage);
+  return {
+    type: actionTypes.GET_SHOP_ITEMS_ERROR,
     payload: { errorMessage }
   };
 };
@@ -554,6 +866,28 @@ const reducer = (state = initialState, action) => {
         })
       });
     }
+    case actionTypes.GET_SHOP_ITEMS_REQUEST: {
+      return Object.assign({}, state, {
+        shopItems: Object.assign({}, state.shopItems, { isFetching: true })
+      });
+    }
+    case actionTypes.GET_SHOP_ITEMS_SUCCESS: {
+      return Object.assign({}, state, {
+        shopItems: Object.assign({}, state.shopItems, {
+          data: action.payload.data || [],
+          isFetching: false
+        })
+      });
+    }
+    case actionTypes.GET_SHOP_ITEMS_ERROR: {
+      return Object.assign({}, state, {
+        shopItems: Object.assign({}, state.shopItems, {
+          data: [],
+          isFetching: false,
+          errorMessage: action.payload.errorMessage
+        })
+      });
+    }
     default:
       return state;
   }
@@ -569,8 +903,13 @@ export default {
     removeExistingEvent,
     updateEventImage,
     updateEventAdditionalImages,
+    createNewShopItem,
+    updateExistingShopItem,
+    removeExistingShopItem,
+    updateShopItemImage,
     // -----> Query
     getAllEvents,
+    getAllShopItems,
     uploadImage,
     uploadImages
   }

@@ -30,6 +30,7 @@ class AdminPage extends Component {
   componentDidMount() {
     // Fetch everything over here
     Promise.all([this.fetchAllEvents()]);
+    Promise.all([this.fetchAllShopItems()]);
   }
 
   state = {
@@ -42,6 +43,23 @@ class AdminPage extends Component {
     const { actionCreators } = AdminDuck;
     const { getAllEvents } = actionCreators;
     const { success, message } = await this.props.dispatch(getAllEvents());
+    if (success) {
+      // this.confirmNotif = ShowConfirmNotif({
+      //   message,
+      //   type: "success"
+      // })
+    } else {
+      this.confirmNotif = ShowConfirmNotif({
+        message,
+        type: "error"
+      });
+    }
+  };
+
+  fetchAllShopItems = async () => {
+    const { actionCreators } = AdminDuck;
+    const { getAllShopItems } = actionCreators;
+    const { success, message } = await this.props.dispatch(getAllShopItems());
     if (success) {
       // this.confirmNotif = ShowConfirmNotif({
       //   message,
