@@ -10,19 +10,44 @@ import { connect } from "react-redux";
 import { Button, TextInput } from "fields";
 
 import * as immutable from "object-path-immutable";
+import CheckoutModal from "./components/CheckoutModal";
+import { ShowConfirmNotif } from "functions";
 
 const eventBackground = require("../../assets/Images/EventsBackgroundImage.png");
 
 class ShopPage extends Component {
+  confirmNotif = null;
   state = {
     cart: {},
-    shopItemQuantity: {}
+    shopItemQuantity: {},
+    checkout: false,
+    orderComplete: false
   };
 
   componentDidMount() {
     // Fetch everything over here
     Promise.all([this.fetchAllShopItems()]);
   }
+
+  onOrderSuccessful = () => {
+    this.setState({
+      checkout: false,
+      orderComplete: true
+    });
+  };
+
+  closeModal = (error = "") => {
+    if (error) {
+      this.confirmNotif = ShowConfirmNotif({
+        message: error,
+        type: "error"
+      });
+    }
+
+    this.setState({
+      checkout: false
+    });
+  };
 
   onChangeShopItemQuantity = (id, qty) => {
     this.setState({
@@ -45,6 +70,34 @@ class ShopPage extends Component {
       //   type: "error"
       // });
     }
+  };
+
+  checkoutCart = async () => {
+    const { cart } = this.state;
+    const { shopItems } = this.props;
+    console.log(cart);
+    console.log(shopItems);
+
+    console.log(Object.keys(cart));
+
+    const cartTotalCents = Object.keys(cart).reduce((total, itemID) => {
+      console.log(itemID);
+      const filteredCart = shopItems.filter(value => value.id === itemID);
+      console.log(filteredCart);
+      const { price } = filteredCart[0];
+
+      const quantity = cart[itemID];
+
+      console.log(total + price * quantity * 100);
+      return total + price * quantity * 100;
+    }, 0);
+
+    console.log("Cart Total", cartTotalCents);
+
+    this.setState({
+      checkout: true,
+      cartTotalCents
+    });
   };
 
   onDetermineIncreaseButtonStatus = (id, quantity) => {
@@ -304,7 +357,7 @@ class ShopPage extends Component {
             </h1>
           </div>
 
-          {this.renderAllShopItems()}
+          {!this.state.orderComplete && this.renderAllShopItems()}
         </div>
         <div
           style={{
@@ -317,7 +370,23 @@ class ShopPage extends Component {
             justifyContent: "center"
           }}
         >
-          {this.renderCart()}
+          {!this.state.orderComplete && this.renderCart()}
+        </div>
+        <div
+          style={{ display: "flex", justifyContent: "center", margin: "20px" }}
+        >
+          <h2>{this.state.orderComplete && "Thank you for Ordering!"}</h2>
+        </div>
+        <div>
+          {this.state.checkout && (
+            <CheckoutModal
+              donateAmount={this.state.donateAmount}
+              closeModal={this.closeModal}
+              onOrderSuccessful={this.onOrderSuccessful}
+              cartTotalCents={this.state.cartTotalCents}
+              cart={this.state.cart}
+            />
+          )}
         </div>
         <MainFooter />
       </div>
