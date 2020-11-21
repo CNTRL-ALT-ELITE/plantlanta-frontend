@@ -155,7 +155,7 @@ class ShopPage extends Component {
         <div className={Style.gridWrapper}>
           {Object.keys(this.state.cart).map(this.renderCartItem)}
         </div>
-        <div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <button
             onClick={() => {
               this.checkoutCart();
@@ -163,8 +163,9 @@ class ShopPage extends Component {
             style={{
               background: "#3AAFA9",
               width: "100px",
-              height: "30px",
-              marginTop: "30px"
+              marginTop: "100px",
+              padding: "10px 0px",
+              color: "white"
             }}
           >
             Checkout
@@ -205,7 +206,15 @@ class ShopPage extends Component {
           src={original_image_url}
           style={{ width: "250px", height: "200px", objectFit: "contain" }}
         />
-        <p style={{ width: "250px", fontSize: "13px", color: "black" }}>
+        <p
+          style={{
+            width: "250px",
+            fontSize: "16px",
+            color: "black",
+            marginTop: "20px",
+            marginLeft: "20px"
+          }}
+        >
           ${price}
         </p>
         {!this.state.cart[id] ? (
@@ -268,8 +277,9 @@ class ShopPage extends Component {
               style={{
                 background: "#3AAFA9",
                 width: "100px",
-                height: "30px",
-                marginTop: "30px"
+                padding: "10px 0px",
+                marginTop: "30px",
+                color: "white"
               }}
             >
               Add to cart
@@ -280,8 +290,9 @@ class ShopPage extends Component {
             style={{
               background: "#3AAFA9",
               width: "100px",
-              height: "30px",
-              marginTop: "30px"
+              color: "white",
+              marginTop: "90px",
+              padding: "10px 0px"
             }}
             onClick={() => this.removeFromCart(id)}
           >
@@ -304,8 +315,28 @@ class ShopPage extends Component {
           src={original_image_url}
           style={{ width: "100px", height: "75px", objectFit: "contain" }}
         />
-        <h4 style={{ color: "black" }}>Qty: {cartQuantity}</h4>
-        <h4 style={{ color: "black" }}>Price: {cartQuantity * price}</h4>
+        <p
+          style={{
+            color: "black",
+
+            fontSize: "16px",
+            color: "black",
+            marginTop: "20px"
+          }}
+        >
+          Qty: {cartQuantity}
+        </p>
+        <p
+          style={{
+            color: "black",
+
+            fontSize: "16px",
+            color: "black",
+            marginTop: "20px"
+          }}
+        >
+          Price: ${cartQuantity * price}
+        </p>
       </div>
     );
   };

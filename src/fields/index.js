@@ -8,10 +8,12 @@ import ProductTemplate from "./ProductTemplate";
 import ModalBackButton from "./ModalBackButton";
 import ImageUploader from "./ImageUploader";
 import MultipleImagesUploader from "./MultipleImagesUploader";
+import Chip from "./Chip";
 
 export {
   Button,
   CenterModal,
+  Chip,
   Img,
   ImageUploader,
   FullPageModal,

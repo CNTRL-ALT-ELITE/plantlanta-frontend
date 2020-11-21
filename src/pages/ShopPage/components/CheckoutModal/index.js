@@ -50,6 +50,7 @@ class PaymentInputForm extends Component {
     errorMessage: "",
     isLoading: false,
     confirmingPayment: false,
+    confirmingAddress: false,
     address: {
       postal_code: "",
       city_locality: "",
@@ -86,6 +87,10 @@ class PaymentInputForm extends Component {
   onSubmitShippingForm = async e => {
     e.preventDefault();
 
+    this.setState({
+      confirmingAddress: true
+    });
+
     const { validateShippingAddress } = CheckoutDuck.actionCreators;
 
     console.log(this.state.address);
@@ -93,6 +98,11 @@ class PaymentInputForm extends Component {
     const { success, response, message } = await this.props.dispatch(
       validateShippingAddress(this.state.address)
     );
+
+    if (!success) {
+      this.props.closeModal(message);
+      return;
+    }
 
     const { error, shippingRateID, shipping_cents, address } = response;
 
@@ -103,10 +113,9 @@ class PaymentInputForm extends Component {
         address,
         shippingRateID,
         shipping_cents,
-        page: 1
+        page: 1,
+        confirmingAddress: false
       });
-    } else {
-      this.props.closeModal(message);
     }
   };
 
@@ -244,7 +253,7 @@ class PaymentInputForm extends Component {
           <br />
           <div className={Style.errorMessage}>{this.state.errorMessage}</div>
           <br />
-          {!this.state.creatingNewAdress ? (
+          {!this.state.confirmingAddress ? (
             <div className={Style.buttonsContainer}>
               <Button
                 className={Style.submitButton}
@@ -434,7 +443,7 @@ class PaymentInputForm extends Component {
 
     console.log(cartArray);
 
-    if (paymentIntent.status === "succeeded") {
+    if (paymentIntent && paymentIntent.status === "succeeded") {
       console.log("Calling Payment Success");
 
       this.props.dispatch(
@@ -455,6 +464,9 @@ class PaymentInputForm extends Component {
       });
 
       this.props.onOrderSuccessful();
+    } else {
+      this.props.closeModal("Error Making Payment");
+      return;
     }
 
     return;

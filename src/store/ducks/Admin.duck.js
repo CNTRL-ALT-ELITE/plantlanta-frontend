@@ -20,6 +20,10 @@ const actionTypes = createActionTypes(
     GET_SHOP_ITEMS_SUCCESS: "GET_SHOP_ITEMS_SUCCESS",
     GET_SHOP_ITEMS_ERROR: "GET_SHOP_ITEMS_ERROR",
 
+    GET_ORDERS_REQUEST: "GET_ORDERS_REQUEST",
+    GET_ORDERS_SUCCESS: "GET_ORDERS_SUCCESS",
+    GET_ORDERS_ERROR: "GET_ORDERS_ERROR",
+
     CREATE_NEW_EVENT_REQUEST: "CREATE_NEW_EVENT_REQUEST",
     CREATE_NEW_EVENT_SUCCESS: "CREATE_NEW_EVENT_SUCCESS",
     CREATE_NEW_EVENT_ERROR: "CREATE_NEW_EVENT_ERROR",
@@ -68,6 +72,12 @@ const initialState = {
     errorMessage: {},
     isFetching: false,
     isMutating: false
+  },
+  orders: {
+    data: [],
+    errorMessage: {},
+    isFetching: false,
+    isMutating: false
   }
 };
 
@@ -80,7 +90,7 @@ const adminSignIn = password => dispatch => {
             }
         `)
       .then(res => {
-        if (res !== null && res != undefined && res.adminSignIn) {
+        if (res !== null && res !== undefined && res.adminSignIn) {
           dispatch(adminSignInSuccess);
           resolve({
             success: true
@@ -507,6 +517,50 @@ const getAllEvents = () => dispatch => {
   });
 };
 
+const getAllOrders = () => dispatch => {
+  dispatch(getAllOrdersRequest());
+  return new Promise((resolve, reject) => {
+    fetchGraphQL(`
+      query {
+          getOrders {
+            buyer_name
+            email
+            orderNumber
+            price_cents
+            shipping_cents
+            total_price_cents
+            status
+            purchased_at
+            items {
+              item {
+                name
+                original_image_url
+              }
+              quantity
+            }
+          }
+      }`)
+      .then(res => {
+        if (
+          res !== null &&
+          res !== undefined &&
+          res.getOrders !== null &&
+          res.getOrders !== undefined
+        ) {
+          dispatch(getAllOrdersSuccess(res.getOrders));
+          resolve({ success: true, message: "Fetched Orders successfully" });
+        } else {
+          dispatch(getAllOrdersError("Could not fetch Orders"));
+          resolve({ success: false, message: "Failed to fetch Orders" });
+        }
+      })
+      .catch(err => {
+        dispatch(getAllOrdersError(err.response));
+        resolve({ success: false, message: "Failed to fetch Orders" });
+      });
+  });
+};
+
 const uploadImage = (file, typeOfUpload) => dispatch => {
   const formData = new FormData();
   formData.append("attachment", file);
@@ -809,6 +863,27 @@ const getAllEventsError = errorMessage => {
   };
 };
 
+const getAllOrdersRequest = () => {
+  return {
+    type: actionTypes.GET_ORDERS_REQUEST
+  };
+};
+
+const getAllOrdersSuccess = data => {
+  return {
+    type: actionTypes.GET_ORDERS_SUCCESS,
+    payload: { data }
+  };
+};
+
+const getAllOrdersError = errorMessage => {
+  console.log(errorMessage);
+  return {
+    type: actionTypes.GET_ORDERS_ERROR,
+    payload: { errorMessage }
+  };
+};
+
 const getAllShopItemsRequest = () => {
   return {
     type: actionTypes.GET_SHOP_ITEMS_REQUEST
@@ -888,6 +963,28 @@ const reducer = (state = initialState, action) => {
         })
       });
     }
+    case actionTypes.GET_ORDERS_REQUEST: {
+      return Object.assign({}, state, {
+        orders: Object.assign({}, state.orders, { isFetching: true })
+      });
+    }
+    case actionTypes.GET_ORDERS_SUCCESS: {
+      return Object.assign({}, state, {
+        orders: Object.assign({}, state.orders, {
+          data: action.payload.data || [],
+          isFetching: false
+        })
+      });
+    }
+    case actionTypes.GET_ORDERS_ERROR: {
+      return Object.assign({}, state, {
+        orders: Object.assign({}, state.orders, {
+          data: [],
+          isFetching: false,
+          errorMessage: action.payload.errorMessage
+        })
+      });
+    }
     default:
       return state;
   }
@@ -910,6 +1007,7 @@ export default {
     // -----> Query
     getAllEvents,
     getAllShopItems,
+    getAllOrders,
     uploadImage,
     uploadImages
   }

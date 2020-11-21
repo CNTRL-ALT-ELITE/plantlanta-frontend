@@ -125,3 +125,36 @@
   margin-bottom: 1em;
   margin-top: 1em;
 }
+
+.inputSelector {
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: inherit;
+  text-transform: none;
+  color: inherit;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 25px;
+  color: black;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  border-bottom: 2px solid #21c432 !important;
+  outline: 0;
+  margin: 0;
+  padding: 0px 20px;
+  resize: vertical;
+  background: transparent !important;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+  -webkit-border-radius: 0px;
+
+  ::placeholder {
+    color: #919496;
+    font-family: Baskerville;
+    padding: 0px;
+  }
+}

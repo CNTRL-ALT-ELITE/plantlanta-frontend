@@ -24,9 +24,13 @@ const ADMIN_NAVBAR_ITEMS = [
     id: "shop",
     label: "Shop"
   },
+  // {
+  //   id: "mailingList",
+  //   label: "Mailing List"
+  // },
   {
-    id: "mailingList",
-    label: "Mailing List"
+    id: "orders",
+    label: "Orders"
   }
 ];
 

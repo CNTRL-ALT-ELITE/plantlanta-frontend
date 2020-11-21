@@ -88,7 +88,11 @@ const validateShippingAddress = address => dispatch => {
     })
       .then(res => {
         console.log(res);
-        if (res !== null && res !== undefined && res.validateShippingAddress) {
+        if (
+          res !== null &&
+          res !== undefined &&
+          res.validateShippingAddress.address !== null
+        ) {
           resolve({
             success: true,
             response: res.validateShippingAddress,

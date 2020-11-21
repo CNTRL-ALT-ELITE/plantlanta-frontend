@@ -17,11 +17,13 @@ import AdminPageContainer from "./components/AdminPageContainer";
 import AdminView from "./components/AdminView";
 
 import { ShowConfirmNotif } from "functions";
+import { async } from "q";
 
 const mapNavBarIDs = {
   events: <AdminView.Events />,
   shop: <AdminView.Shop />,
-  mailingList: <AdminView.MailingList />
+  mailingList: <AdminView.MailingList />,
+  orders: <AdminView.Orders />
 };
 
 class AdminPage extends Component {
@@ -31,6 +33,7 @@ class AdminPage extends Component {
     // Fetch everything over here
     Promise.all([this.fetchAllEvents()]);
     Promise.all([this.fetchAllShopItems()]);
+    Promise.all([this.fetchAllOrders()]);
   }
 
   state = {
@@ -60,6 +63,24 @@ class AdminPage extends Component {
     const { actionCreators } = AdminDuck;
     const { getAllShopItems } = actionCreators;
     const { success, message } = await this.props.dispatch(getAllShopItems());
+    if (success) {
+      // this.confirmNotif = ShowConfirmNotif({
+      //   message,
+      //   type: "success"
+      // })
+    } else {
+      this.confirmNotif = ShowConfirmNotif({
+        message,
+        type: "error"
+      });
+    }
+  };
+
+  fetchAllOrders = async () => {
+    const { actionCreators } = AdminDuck;
+    const { getAllOrders } = actionCreators;
+    const { success, message } = await this.props.dispatch(getAllOrders());
+
     if (success) {
       // this.confirmNotif = ShowConfirmNotif({
       //   message,
