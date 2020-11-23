@@ -6,11 +6,11 @@ Release Notes (Version 1.0)
 	Merchandise Shop
 	Admin side to oversee app content and view new orders and donations accessible on {url}/admin route and entering password (default password is 12345678). 
 
-Bugs:
+	Bugs:
 	If max inventory for a shop item is added to cart and ordered then the website will produce an error. 
 
 
-Future Features:
+	Future Features:	
 	Auto-updating shop item quantities
 	Integrate Podcasts in web app
 	Plantlanta Drive Content
