@@ -1,68 +1,61 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Release Notes (Version 1.0)
 
-## Available Scripts
+	Home Page
+	Volunteer and Events sign up
+	Donating
+	Merchandise Shop
+	Admin side to oversee app content and view new orders and donations accessible on {url}/admin route and entering password (default password is 12345678). 
 
-In the project directory, you can run:
+Bugs:
+	If max inventory for a shop item is added to cart and ordered then the website will produce an error. 
 
-### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Future Features:
+	Auto-updating shop item quantities
+	Integrate Podcasts in web app
+	Plantlanta Drive Content
+	Basement x PlantLanta
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Install Guide 
 
-### `yarn build`
+	If hosting the website online:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+	Create a Stripe account to handle payments
+	Create a Shipeo account to handle shipping cost. Shipeo also validates user addresses and generates prepaid shipping labels. 
+	Create an Amazon S3 account to handle image uploads for events and shop items. 
+	Create an Amazon SES account for emailing order confirmations. Update the email address in the code. 
+	Create a MongoDB account required to access backend information
+	Need to host website online (buy a domain name and pay for hosting services)
+	Through AWS access the environment variables and input your API keys.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+	If you want to run the web app locally:
 
-### `yarn eject`
+	Install Node JS
+	Create accounts for all the various API and backend management tools mentioned 
+	Clone repository from github
+	Replace API keys in the backend
+	To run the web app go to the command line on your machine:
+	Load the Plantlanta website backend by typing “cd {file location}” & “cd plantlanta-backend” & “nmp install” & “nmp start”
+	Access the Plantlanta website frontend by typing “cd {file location}” & “cd plantlanta-frontend” & “yarn install” & “yarn start”
+	Web app will run on a Google Chrome tab
+	Create a .env file and put in the following variables from the various 3rd party accounts / Api keys created: 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+		SHIPPO_API_KEY = ____,
+		STRIPE_API_KEY = ____,
+		AMAZON_ACCESS_KEY_ID = ____
+		AMAZON_SECRET_ACCESS_KEY = _____
+		MONGODB_URL = _______
+ 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+	Dependant Libraries:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+	third party npm libraries 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+	Troubleshooting:
+	Application will not run properly if the frontend is installed and started without running the backend. Make sure to install and start the backend first and then the frontend
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
