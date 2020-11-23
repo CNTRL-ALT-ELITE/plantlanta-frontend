@@ -42,7 +42,9 @@ class HomePage extends Component {
     );
 
     const { userSignup } = UserSignupDuck.actionCreators;
-    const { success } = await this.props.dispatch(userSignup(name, email));
+    const { success, error } = await this.props.dispatch(
+      userSignup(name, email)
+    );
 
     if (success) {
       // Show Notif
@@ -52,7 +54,7 @@ class HomePage extends Component {
       });
     } else {
       this.confirmNotif = ShowConfirmNotif({
-        message: "Something went wrong, try again",
+        message: error,
         type: "error"
       });
     }
@@ -97,54 +99,19 @@ class HomePage extends Component {
         <MainNavBar />
         <div>
           <div className={Style.pageContainer}>
-            <img
-              src={mainBackground}
-              style={{
-                objectFit: "contain",
-                position: "relative",
-                maxWidth: "100%"
-              }}
-            />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-start",
-                position: "absolute",
-                width: "60%"
-              }}
-            >
-              <h1 style={{ fontSize: "2.6rem", color: "white", margin: "0px" }}>
-                Welcome To{" "}
-              </h1>
-              <h1 style={{ fontSize: "5rem", color: "white", margin: "0px" }}>
-                Plantlanta!
-              </h1>
+            <img src={mainBackground} className={Style.backgroundImage} />
+            <div className={Style.introContainerTitle}>
+              <h1 className={Style.backgroundImageTitle}>Welcome To </h1>
+              <h1 className={Style.backgroundImageTitle2}>Plantlanta!</h1>
             </div>
             <div className={Style.signUpContainer}>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <h1
-                  style={{
-                    color: "#21C432",
-                    fontSize: "20px",
-                    margin: "0px"
-                  }}
-                >
-                  Subscribe
-                </h1>
-                <p style={{ fontSize: "14px", fontWeight: "bold" }}>
+                <h1 className={Style.subscribeContainerTitle}>Subscribe</h1>
+                <p className={Style.subscribeContainerTitle2}>
                   to our mailing list to stay updated on all things Plantlanta!
                 </p>
               </div>
-              <form
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginLeft: "20px"
-                }}
-                onSubmit={this.onSubscribe}
-              >
+              <form className={Style.signUpForm} onSubmit={this.onSubscribe}>
                 <div
                   style={{
                     display: "flex",
@@ -152,7 +119,7 @@ class HomePage extends Component {
                     marginRight: "20px"
                   }}
                 >
-                  <p style={{ color: "#21C432", fontSize: "12px" }}>Name</p>
+                  <p className={Style.inputLabel}>Name</p>
                   <TextInput
                     type="text"
                     className={Style.signUpInput}
@@ -178,7 +145,7 @@ class HomePage extends Component {
                     marginRight: "20px"
                   }}
                 >
-                  <p style={{ color: "#21C432", fontSize: "12px" }}>Email</p>
+                  <p className={Style.inputLabel}>Email</p>
                   <TextInput
                     type="email"
                     className={Style.signUpInput}
@@ -208,41 +175,12 @@ class HomePage extends Component {
             </div>
           </div>
 
-          <div
-            style={{
-              background: "white",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center"
-            }}
-          >
-            <div
-              style={{
-                padding: "50px",
-                width: "80%",
-                marginTop: "30px",
-                background: "#F8F8F8",
-                display: "flex",
-                justifyContent: "center"
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  width: "50%"
-                }}
-              >
-                <h2 style={{ color: "#21C432", fontSize: "15px" }}>ABOUT US</h2>
-                <h1 style={{ fontSize: "35px" }}>Our Mission</h1>
-                <p
-                  style={{
-                    fontSize: "16px",
-                    marginBottom: "20px",
-                    marginRight: "50px"
-                  }}
-                >
+          <div className={Style.aboutPlantlanta}>
+            <div className={Style.aboutContainer}>
+              <div className={Style.halfContainer}>
+                <h2 className={Style.titleGreen}>ABOUT US</h2>
+                <h1 className={Style.titleLarge}>Our Mission</h1>
+                <p className={Style.body}>
                   We're a nonprofit community organization working to create an
                   educational platform that inspires, encourages, and motivates
                   children & young adults in the Metro Atlanta area to promote
@@ -262,14 +200,7 @@ class HomePage extends Component {
                 </button>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  width: "50%"
-                }}
-              >
+              <div className={Style.imageContainer}>
                 <div
                   style={{
                     display: "flex",
@@ -306,36 +237,16 @@ class HomePage extends Component {
                 />
               </div>
             </div>
-            <div
-              style={{
-                padding: "30px",
-                width: "100%",
-                marginTop: "30px"
-              }}
-            >
-              <div
-                style={{
-                  maxWidth: "80%",
-                  margin: "0 auto 100px",
-                  padding: "0 30px"
-                }}
-              >
+            <div className={Style.navigateContainer}>
+              <div className={Style.navigateSubContainer}>
                 <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      flexWrap: "wrap"
-
-                      // maxWidth: "900px"
-                    }}
-                  >
+                  <div className={Style.navFlexContainer}>
                     <div className={Style.indivContainer}>
                       <div style={{ display: "flex" }}>
                         <img
                           src={plantlanta04}
                           alt="plantlanta04"
-                          style={{ maxHeight: "200px" }}
+                          className={Style.navImage}
                         />
                         <div
                           style={{
@@ -345,31 +256,11 @@ class HomePage extends Component {
                             marginLeft: "20px"
                           }}
                         >
-                          <h2
-                            style={{
-                              fontSize: "18px",
-                              color: "#21C432",
-                              margin: "0px"
-                            }}
-                          >
-                            FIND
-                          </h2>
-                          <h1
-                            style={{
-                              fontSize: "25px",
-                              color: "black",
-                              margin: "0px"
-                            }}
-                          >
+                          <h2 className={Style.titleGreen}>FIND</h2>
+                          <h1 className={Style.navTitleLarge}>
                             Events & Opportunities
                           </h1>
-                          <p
-                            style={{
-                              fontSize: "15px",
-                              color: "black",
-                              margin: "0px"
-                            }}
-                          >
+                          <p className={Style.navBody}>
                             Discover events and volunteer opportunities near
                             you!
                           </p>
@@ -394,7 +285,7 @@ class HomePage extends Component {
                         <img
                           src={plantlanta05}
                           alt="plantlanta05"
-                          style={{ maxHeight: "200px" }}
+                          className={Style.navImage}
                         />
                         <div
                           style={{
@@ -404,31 +295,11 @@ class HomePage extends Component {
                             marginLeft: "20px"
                           }}
                         >
-                          <h2
-                            style={{
-                              fontSize: "18px",
-                              color: "#21C432",
-                              margin: "0px"
-                            }}
-                          >
-                            SUBSCRIBE
-                          </h2>
-                          <h1
-                            style={{
-                              fontSize: "25px",
-                              color: "black",
-                              margin: "0px"
-                            }}
-                          >
+                          <h2 className={Style.titleGreen}>SUBSCRIBE</h2>
+                          <h1 className={Style.navTitleLarge}>
                             To Our Email List
                           </h1>
-                          <p
-                            style={{
-                              fontSize: "15px",
-                              color: "black",
-                              margin: "0px"
-                            }}
-                          >
+                          <p className={Style.navBody}>
                             For updates on events and information about
                             Plantlanta
                           </p>
@@ -453,7 +324,7 @@ class HomePage extends Component {
                         <img
                           src={plantlanta06}
                           alt="plantlanta06"
-                          style={{ maxHeight: "200px" }}
+                          className={Style.navImage}
                         />
                         <div
                           style={{
@@ -463,31 +334,11 @@ class HomePage extends Component {
                             marginLeft: "20px"
                           }}
                         >
-                          <h2
-                            style={{
-                              fontSize: "18px",
-                              color: "#21C432",
-                              margin: "0px"
-                            }}
-                          >
-                            SHOP
-                          </h2>
-                          <h1
-                            style={{
-                              fontSize: "25px",
-                              color: "black",
-                              margin: "0px"
-                            }}
-                          >
+                          <h2 className={Style.titleGreen}>SHOP</h2>
+                          <h1 className={Style.navTitleLarge}>
                             Merchandise & More
                           </h1>
-                          <p
-                            style={{
-                              fontSize: "15px",
-                              color: "black",
-                              margin: "0px"
-                            }}
-                          >
+                          <p className={Style.navBody}>
                             Don't miss out on the newest Plantlanta merchandise
                             !
                           </p>
@@ -512,7 +363,7 @@ class HomePage extends Component {
                         <img
                           src={plantlanta07}
                           alt="plantlanta07"
-                          style={{ maxHeight: "200px" }}
+                          className={Style.navImage}
                         />
                         <div
                           style={{
@@ -522,31 +373,9 @@ class HomePage extends Component {
                             marginLeft: "20px"
                           }}
                         >
-                          <h2
-                            style={{
-                              fontSize: "18px",
-                              color: "#21C432",
-                              margin: "0px"
-                            }}
-                          >
-                            DONATE
-                          </h2>
-                          <h1
-                            style={{
-                              fontSize: "25px",
-                              color: "black",
-                              margin: "0px"
-                            }}
-                          >
-                            To Support Us
-                          </h1>
-                          <p
-                            style={{
-                              fontSize: "15px",
-                              color: "black",
-                              margin: "0px"
-                            }}
-                          >
+                          <h2 className={Style.titleGreen}>DONATE</h2>
+                          <h1 className={Style.navTitleLarge}>To Support Us</h1>
+                          <p className={Style.navBody}>
                             Donations go a long way towards helping the
                             community
                           </p>

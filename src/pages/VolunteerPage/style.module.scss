@@ -11,6 +11,26 @@
   }
 }
 
+.introContainerTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  width: 60%;
+}
+
+.backgroundImage {
+  object-fit: contain;
+  position: relative;
+  max-width: 100%;
+}
+
+.backgroundImageTitle {
+  font-size: 2.6rem;
+  color: white;
+  margin: 0px;
+}
+
 .pageContainer {
   display: flex;
   flex-direction: column;
@@ -300,6 +320,60 @@
   font-size: 20px;
 }
 
+.titleGreen {
+  color: #21c432;
+  font-size: 15px;
+}
+
+.titleLarge {
+  font-size: 35px;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+}
+
+.eventPlantlanta {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0px;
+}
+
+.eventsContainer {
+  padding: 50px;
+  width: 80%;
+  margin-top: 30px;
+  background: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.halfContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  margin-bottom: 0px;
+}
+
+.eventImg {
+  width: 250px;
+  height: 200px;
+  object-fit: contain;
+}
+
+.eventText {
+  width: 250px;
+  font-size: 13px;
+  color: black;
+}
+
 @media only screen and (min-width: 771px) {
   .Modal {
     max-width: 700px;
@@ -315,5 +389,69 @@
 
   .body {
     padding: 20px 40px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .introContainerTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .backgroundImageTitle {
+    font-size: 1.5rem;
+    color: white;
+    margin: 0px;
+    left: 20px;
+    max-width: 150px;
+  }
+
+  .titleGreen {
+    font-size: 14px;
+  }
+
+  .titleLarge {
+    font-size: 20px;
+    color: black;
+    margin: 5px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .imageContainer {
+    width: 100%;
+  }
+
+  .eventsPlantlanta {
+    margin-top: 200px;
+  }
+
+  .eventsContainer {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .halfContainer {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .gridWrapper {
+    grid-template-columns: repeat(auto-fill, 50%);
+    display: grid;
+    grid-gap: 30px 0px;
+  }
+
+  .eventImg {
+    width: 80%;
+    max-height: 100px;
+    margin-bottom: 10px;
+  }
+
+  .eventText {
+    width: 80%;
+    max-height: 100px;
+    min-height: 100px;
   }
 }

@@ -17,27 +17,30 @@ export default class MainFooter extends Component {
             the Atlanta community!
           </p>
           <div className={Style.socialMediaButtons}>
-            <button>
+            <a target="_blank" href={"https://www.facebook.com/PlantLANTA/"}>
               <img
                 src={facebookLogo}
                 alt="facebookLogo"
                 className={Style.socialMediaLogo}
               />
-            </button>
-            <button>
+            </a>
+            <a target="_blank" href={"https://twitter.com/iamplantlanta"}>
               <img
                 src={twitterLogo}
                 alt="twitterLogo"
                 className={Style.socialMediaLogo}
               />
-            </button>
-            <button>
+            </a>
+            <a
+              target="_blank"
+              href={"https://www.instagram.com/officialplantlanta/?hl=en"}
+            >
               <img
                 src={instaLogo}
                 alt="instaLogo"
                 className={Style.socialMediaLogo}
               />
-            </button>
+            </a>
           </div>
           <p style={{ color: "grey" }}>Copyright ©2020 All rights reserved</p>
         </div>

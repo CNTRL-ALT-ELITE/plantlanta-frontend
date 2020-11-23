@@ -13,6 +13,26 @@
   // background-image: url("https://scontent-atl3-1.xx.fbcdn.net/v/t1.0-9/36725173_223265288296675_3410496760815026176_o.jpg?_nc_cat=105&_nc_sid=cdbe9c&_nc_ohc=D0badQIE1c8AX_uaFG8&_nc_ht=scontent-atl3-1.xx&oh=7eb528c8c9ed2bd6be91e83a8b865e84&oe=5F7A7AC7");
 }
 
+.backgroundImage {
+  object-fit: contain;
+  position: relative;
+  max-width: 100%;
+}
+
+.backgroundImageTitle {
+  font-size: 2.6rem;
+  color: white;
+  margin: 0px;
+}
+
+.introContainerTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  width: 60%;
+}
+
 .quantityButton {
   width: 30px;
   height: 30px;
@@ -36,4 +56,134 @@
   grid-template-columns: repeat(auto-fill, 33%);
   display: grid;
   grid-gap: 50px 0px;
+}
+
+.titleGreen {
+  color: #21c432;
+  font-size: 15px;
+}
+
+.titleLarge {
+  font-size: 35px;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+}
+
+.shopPlantlanta {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0px;
+}
+
+.shopContainer {
+  padding: 50px;
+  width: 80%;
+  margin-top: 30px;
+  background: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.halfContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  margin-bottom: 0px;
+}
+
+.shopItemImg {
+  width: 250px;
+  height: 200px;
+  object-fit: contain;
+}
+
+.shopItemText {
+  width: 250px;
+  font-size: 13px;
+  color: black;
+}
+
+@media only screen and (max-width: 800px) {
+  .introContainerTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .backgroundImageTitle {
+    font-size: 1.5rem;
+    color: white;
+    margin: 0px;
+    left: 20px;
+    max-width: 150px;
+  }
+
+  .titleGreen {
+    font-size: 14px;
+  }
+
+  .titleLarge {
+    font-size: 20px;
+    color: black;
+    margin: 5px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .imageContainer {
+    width: 100%;
+  }
+
+  .shopPlantlanta {
+    margin-top: 200px;
+  }
+
+  .shopContainer {
+    flex-direction: column;
+    padding: 20px;
+    margin: 0px;
+    width: 100%;
+  }
+
+  .halfContainer {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .gridWrapper {
+    grid-template-columns: repeat(auto-fill, 50%);
+    display: grid;
+    grid-gap: 30px 0px;
+  }
+
+  .shopItemImg {
+    width: 80%;
+    max-height: 100px;
+    margin-bottom: 10px;
+  }
+
+  .shopItemText {
+    width: 80%;
+    max-height: 100px;
+    min-height: 100px;
+  }
+
+  .quantityButton {
+    margin: 0px;
+  }
+
+  .quantityInput {
+    width: 60px;
+    margin: 10px;
+    border: none;
+  }
 }

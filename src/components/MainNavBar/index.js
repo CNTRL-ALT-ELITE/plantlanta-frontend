@@ -49,6 +49,15 @@ export default class MainNavBar extends Component {
           </li>
           <li>
             <NavLink
+              to="/volunteer"
+              className={Style.sideBarNavLink}
+              activeClassName={Style.sideBarNavLinkActive}
+            >
+              <span className={Style.navLinkText}>volunteer</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               exact
               to="/shop"
               className={Style.sideBarNavLink}
@@ -57,16 +66,15 @@ export default class MainNavBar extends Component {
               <span className={Style.navLinkText}>Shop</span>
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              exact
-              to="/volunteer"
-              className={Style.sideBarNavLink}
-              activeClassName={Style.sideBarNavLinkActive}
-            >
-              <span className={Style.navLinkText}>volunteer</span>
-            </NavLink>
-          </li>
+
+          <NavLink
+            exact
+            to="/donateNow"
+            className={Style.sideBarNavLink}
+            activeClassName={Style.sideBarNavLinkActive}
+          >
+            <span className={Style.navLinkText}>Donate</span>
+          </NavLink>
         </ul>
       </nav>
     </div>

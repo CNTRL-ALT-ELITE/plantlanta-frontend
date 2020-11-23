@@ -149,13 +149,8 @@ class VolunteerPage extends Component {
         <p style={{ marginBottom: "15px", color: "black" }}>
           {moment(eventDate).format("LL")}{" "}
         </p>
-        <img
-          src={original_image_url}
-          style={{ width: "250px", height: "200px", objectFit: "contain" }}
-        />
-        <p style={{ width: "250px", fontSize: "13px", color: "black" }}>
-          {description}
-        </p>
+        <img src={original_image_url} className={Style.eventImg} />
+        <p className={Style.eventText}>{description}</p>
         <button
           onClick={() => this.showSignUpModal(event)}
           style={{
@@ -286,57 +281,19 @@ class VolunteerPage extends Component {
       <div>
         <MainNavBar />
         <div className={Style.pageContainer}>
-          <img
-            src={eventBackground}
-            style={{
-              objectFit: "contain",
-              position: "relative",
-              maxWidth: "100%"
-            }}
-          />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              position: "absolute",
-              width: "60%"
-            }}
-          >
-            <h1 style={{ fontSize: "2.6rem", color: "white", margin: "0px" }}>
+          <img src={eventBackground} className={Style.backgroundImage} />
+          <div className={Style.introContainerTitle}>
+            <h1 className={Style.backgroundImageTitle}>
               Events and Volunteer Opportunities
             </h1>
           </div>
         </div>
 
-        <div
-          style={{
-            background: "white",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center"
-          }}
-        >
-          <div
-            style={{
-              padding: "50px",
-              width: "80%",
-              marginTop: "30px",
-              background: "#F8F8F8",
-              display: "flex",
-              justifyContent: "center"
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-                width: "50%"
-              }}
-            >
-              <h2 style={{ color: "#21C432", fontSize: "15px" }}>JOIN US!</h2>
-              <h1 style={{ fontSize: "35px" }}>
+        <div className={Style.eventPlantlanta}>
+          <div className={Style.eventsContainer}>
+            <div className={Style.halfContainer}>
+              <h2 className={Style.titleGreen}>JOIN US!</h2>
+              <h1 className={Style.titleLarge}>
                 As we create a more sustainable Atlanta
               </h1>
               <p
@@ -353,14 +310,7 @@ class VolunteerPage extends Component {
               </p>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-                width: "50%"
-              }}
-            >
+            <div className={Style.imageContainer}>
               <div
                 style={{
                   display: "flex",
@@ -413,7 +363,7 @@ class VolunteerPage extends Component {
               <h2 style={{ color: "#21C432", fontSize: "15px" }}>
                 UPCOMING EVENTS
               </h2>
-              <h1 style={{ fontSize: "35px" }}>
+              <h1 className={Style.titleLarge}>
                 Sign up or buy tickets for upcoming events!
               </h1>
             </div>

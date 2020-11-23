@@ -100,15 +100,8 @@ export default class DonatePage extends Component {
       <div>
         <MainNavBar />
         <div>
-          <div className={Style.pageContainer}>
-            <img
-              src={mainBackground}
-              style={{
-                objectFit: "contain",
-                position: "relative",
-                maxWidth: "100%"
-              }}
-            />
+          <div className={Style.imgContainer}>
+            <img src={mainBackground} className={Style.backgroundImage} />
             <div
               style={{
                 display: "flex",
@@ -118,13 +111,11 @@ export default class DonatePage extends Component {
                 width: "60%"
               }}
             >
-              <h1 style={{ fontSize: "2.6rem", color: "white", margin: "0px" }}>
-                Donate Now
-              </h1>
+              <h1 className={Style.backgroundImageTitle}>Donate Now</h1>
             </div>
           </div>
           <div className={Style.pageContainer}>
-            <h1>Help Plantlanta by donating!</h1>
+            <h1 className={Style.titleLarge}>Help Plantlanta by donating!</h1>
             <form
               style={{
                 display: "flex",
@@ -134,7 +125,7 @@ export default class DonatePage extends Component {
               }}
               onSubmit={this.onCheckout}
             >
-              <h1>$</h1>
+              <h1 className={Style.titleLarge}>$</h1>
               <TextInput
                 type="number"
                 className={Style.signUpInput}

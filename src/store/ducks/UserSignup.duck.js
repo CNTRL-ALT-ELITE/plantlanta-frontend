@@ -26,22 +26,25 @@ const userSignup = (name, email) => dispatch => {
             }
         `)
       .then(res => {
-        if (res !== null && res != undefined && res.newUserSignup) {
+        if (res !== null && res != undefined && res.newUserSignup === "") {
           dispatch(userSignupSuccess);
           resolve({
-            success: true
+            success: true,
+            error: ""
           });
         } else {
           dispatch(userSignupError);
           resolve({
-            success: false
+            success: false,
+            error: res.newUserSignup
           });
         }
       })
       .catch(err => {
         dispatch(userSignupError);
         resolve({
-          success: false
+          success: false,
+          error: "Something went wrong. Try again"
         });
       });
   });

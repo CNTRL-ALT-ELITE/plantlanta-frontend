@@ -1,5 +1,5 @@
 .indivContainer {
-  color: #fff;
+  color: black;
   margin-bottom: 4rem;
   width: 45%;
   max-height: 200px;
@@ -9,6 +9,14 @@
     width: 80px;
     height: 80px;
   }
+}
+
+.introContainerTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: absolute;
+  width: 60%;
 }
 
 .pageContainer {
@@ -26,6 +34,24 @@
   // background-image: url("https://scontent-atl3-1.xx.fbcdn.net/v/t1.0-9/36725173_223265288296675_3410496760815026176_o.jpg?_nc_cat=105&_nc_sid=cdbe9c&_nc_ohc=D0badQIE1c8AX_uaFG8&_nc_ht=scontent-atl3-1.xx&oh=7eb528c8c9ed2bd6be91e83a8b865e84&oe=5F7A7AC7");
 }
 
+.backgroundImage {
+  object-fit: contain;
+  position: relative;
+  max-width: 100%;
+}
+
+.backgroundImageTitle {
+  font-size: 2.6rem;
+  color: white;
+  margin: 0px;
+}
+
+.backgroundImageTitle2 {
+  font-size: 5rem;
+  color: white;
+  margin: 0px;
+}
+
 .signUpContainer {
   display: flex;
   padding: 30px 60px;
@@ -33,6 +59,7 @@
   bottom: -40px;
   background: white;
   box-shadow: 6px 7px 12px -6px rgba(0, 0, 0, 0.75);
+  flex-direction: row;
 }
 
 .signUpInput {
@@ -69,6 +96,22 @@
   max-width: 360px;
 }
 
+.subscribeContainerTitle {
+  color: #21c432;
+  font-size: 20px;
+  margin: 0px;
+}
+
+.subscribeContainerTitle2 {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.inputLabel {
+  color: #21c432;
+  font-size: 12px;
+}
+
 .subscribeButton {
   background-color: #21c432;
   padding: 10px 20px;
@@ -77,4 +120,214 @@
   color: white;
   border-radius: 0px;
   margin-top: 15px;
+}
+
+.signUpForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.titleGreen {
+  color: #21c432;
+  font-size: 15px;
+}
+
+.titleLarge {
+  font-size: 35px;
+}
+
+.aboutContainer {
+  padding: 50px;
+  width: 80%;
+  margin-top: 30px;
+  background: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.body {
+  font-size: 16px;
+  margin-bottom: 20px;
+  margin-right: 50px;
+}
+
+.halfContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  margin-bottom: 0px;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+}
+
+.aboutPlantlanta {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0px;
+}
+
+.navigateContainer {
+  padding: 30px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.navigateSubContainer {
+  max-width: 80%;
+  margin: 0 auto 100px;
+  padding: 0 30px;
+}
+
+.navFlexContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.navBody {
+  font-size: 15px;
+  margin: 0px;
+}
+
+.navTitleLarge {
+  font-size: 25px;
+  margin: 0px;
+}
+
+.navImage {
+  max-height: 200px;
+}
+
+@media only screen and (max-width: 800px) {
+  .introContainerTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .backgroundImageTitle {
+    font-size: 1rem;
+    color: white;
+    margin: 0px;
+  }
+
+  .backgroundImageTitle2 {
+    font-size: 2rem;
+    color: white;
+    margin: 0px;
+  }
+
+  .signUpForm {
+    flex-direction: row;
+  }
+
+  .subscribeContainerTitle {
+    color: #21c432;
+    font-size: 12px;
+    margin: 0px;
+  }
+
+  .subscribeContainerTitle2 {
+    font-size: 10px;
+    font-weight: bold;
+  }
+
+  .inputLabel {
+    font-size: 10px;
+  }
+
+  .titleGreen {
+    font-size: 14px;
+  }
+
+  .titleLarge {
+    font-size: 20px;
+    color: black;
+    margin: 5px;
+  }
+
+  .indivContainer {
+    width: 100%;
+    margin-bottom: 2rem;
+    & > svg {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  .navFlexContainer {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .signUpForm {
+    flex-direction: column;
+  }
+
+  .signUpContainer {
+    padding: 10px;
+    flex-direction: column;
+    bottom: -200px;
+    left: 20px;
+  }
+
+  .aboutContainer {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .body {
+    font-size: 12px;
+    color: black;
+  }
+
+  .halfContainer {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .imageContainer {
+    width: 100%;
+  }
+
+  .aboutPlantlanta {
+    margin-top: 200px;
+  }
+
+  .navigateSubContainer {
+    max-width: 100%;
+    padding: 0px;
+  }
+
+  .navFlexContainer {
+    flex-direction: column;
+  }
+
+  .navTitleLarge {
+    font-size: 16px;
+    margin: 0px;
+    margin-bottom: 10px;
+  }
+
+  .navBody {
+    font-size: 11px;
+    margin: 0px;
+  }
+
+  .navImage {
+    width: 25%;
+  }
 }

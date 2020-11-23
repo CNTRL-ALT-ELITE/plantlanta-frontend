@@ -202,21 +202,8 @@ class ShopPage extends Component {
       <div className={Style.gridCell} key={id}>
         <h4 style={{ color: "black" }}>{name}</h4>
         <p style={{ marginBottom: "15px", color: "black" }}>{description}</p>
-        <img
-          src={original_image_url}
-          style={{ width: "250px", height: "200px", objectFit: "contain" }}
-        />
-        <p
-          style={{
-            width: "250px",
-            fontSize: "16px",
-            color: "black",
-            marginTop: "20px",
-            marginLeft: "20px"
-          }}
-        >
-          ${price}
-        </p>
+        <img src={original_image_url} className={Style.shopItemImg} />
+        <p className={Style.shopItemText}>${price}</p>
         {!this.state.cart[id] ? (
           <React.Fragment>
             <div style={{ display: "flex" }}>
@@ -346,44 +333,15 @@ class ShopPage extends Component {
       <div>
         <MainNavBar />
         <div className={Style.pageContainer}>
-          <img
-            src={eventBackground}
-            style={{
-              objectFit: "contain",
-              position: "relative",
-              maxWidth: "100%"
-            }}
-          />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              position: "absolute",
-              width: "60%"
-            }}
-          >
-            <h1 style={{ fontSize: "2.6rem", color: "white", margin: "0px" }}>
-              Shop Merchandise
-            </h1>
+          <img src={eventBackground} className={Style.backgroundImage} />
+          <div className={Style.introContainerTitle}>
+            <h1 className={Style.backgroundImageTitle}>Shop Merchandise</h1>
           </div>
         </div>
-        <div
-          style={{
-            padding: "50px",
-            width: "80%",
-            marginTop: "30px",
-            background: "#F8F8F8",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center"
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <h2 style={{ color: "#21C432", fontSize: "15px" }}>
-              Plantlanta Merchandise
-            </h2>
-            <h1 style={{ fontSize: "35px" }}>
+        <div className={Style.shopPlanlanta}>
+          <div className={Style.shopContainer}>
+            <h2 className={Style.titleGreen}>Plantlanta Merchandise</h2>
+            <h1 className={Style.titleLarge}>
               Buy merch and support Plantlanta!
             </h1>
           </div>
