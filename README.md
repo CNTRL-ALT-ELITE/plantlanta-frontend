@@ -8,6 +8,9 @@ Release Notes (Version 1.0)
 
 	Bugs:
 	If max inventory for a shop item is added to cart and ordered then the website will produce an error. 
+	Can't view list of people signed up for an event (Admin)
+	Can't view list of people subscribed through email (Admin)
+	When order is placed the shipping label is created by the link to the shipping label is not accessible (Admin)
 
 
 	Future Features:	
